@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Quwi</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="wrong_pass_or_email">Wrong email or password.</string>
+    <string name="pass_to_short">Password should be more than 6 chars.</string>
+    <string name="incorrect_email">Incorrect E-mail!</string>
+    <string name="project_name">Project name</string>
+    <string name="tickets_visibility">Tickets visibility</string>
+    <string name="no_projects_yet">Empty project list</string>
+    <string name="missing_internet_connection">Looks like, internet is missing</string>
+    <string name="change_ticket_subject">Change topic name</string>
+    <string name="change">Change</string>
+    <string name="close">Cancel</string>
+    <string name="projects">All projects</string>
+    <string name="exit">Log out</string>
+    <string name="active">Active</string>
+    <string name="workers">%1$s workers</string>
+    <string name="inactive">Inactive</string>
+    <string name="worker">%1$s worker</string>
+    <string name="workers_text">Workers:</string>
+    <string name="add_me_as_watcher_to_tickets_created_by_others">Add me as watcher to tickets created by others</string>
+    <string name="username">Username</string>
+    <string name="all_time">All time</string>
+    <string name="smth_went_wrong">Something went wrong...Try again later.</string>
+</resources>
