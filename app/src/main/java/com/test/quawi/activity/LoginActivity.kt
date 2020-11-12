@@ -7,25 +7,22 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.test.quawi.R
-import com.test.quawi.retrofit.APIService
-import com.test.quawi.retrofit.Client
-import com.test.quawi.models.LoginModel
 import com.test.quawi.models.LoginResponseModel
-import com.test.quawi.utils.API_URL
+import com.test.quawi.retrofit.RequestResult
+import com.test.quawi.retrofit.Requests
 import com.test.quawi.utils.ProgressBar
 import com.test.quawi.utils.SharedPref
 import com.test.quawi.utils.Validation
 import kotlinx.android.synthetic.main.activity_login.*
-import retrofit2.Call
 import retrofit2.Response
 import java.net.HttpURLConnection
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var apiService: APIService
 
     private val progressBar = ProgressBar()
-    private val prefs = SharedPref()
     private val validation = Validation()
+    private val requests = Requests()
+    private val prefs = SharedPref()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,13 +32,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
-        initRetrofitClient()
+        requests.initRetrofitClient()
         initButtonClick()
         checkToken()
-    }
-
-    private fun initRetrofitClient() {
-        apiService = Client.getClient(API_URL).create(APIService::class.java)
     }
 
     private fun initButtonClick() {
@@ -50,9 +43,14 @@ class LoginActivity : AppCompatActivity() {
             val pass = login_pass.text.toString()
 
             when {
-                validation.isPasswordValid(login) && validation.isPasswordValid(pass) -> loginUser(login, pass)
-                validation.isEmailValid(login) && !validation.isPasswordValid(pass) -> login_email.error = getString(R.string.pass_to_short)
-                !validation.isEmailValid(login) && validation.isPasswordValid(pass) -> login_email.error = getString(R.string.incorrect_email)
+                validation.isPasswordValid(login) && validation.isPasswordValid(pass) -> loginUser(
+                    login,
+                    pass
+                )
+                validation.isEmailValid(login) && !validation.isPasswordValid(pass) -> login_email.error =
+                    getString(R.string.pass_to_short)
+                !validation.isEmailValid(login) && validation.isPasswordValid(pass) -> login_email.error =
+                    getString(R.string.incorrect_email)
                 else -> login_email.error = null
             }
         }
@@ -61,35 +59,38 @@ class LoginActivity : AppCompatActivity() {
     private fun loginUser(login: String, email: String) {
         progressBar.show(login_progress_bar)
 
-        apiService.login(LoginModel(login, email))
-            .enqueue(object : retrofit2.Callback<LoginResponseModel> {
-                override fun onFailure(call: Call<LoginResponseModel>, t: Throwable) {
-                    Log.e("LoginError", t.message.toString())
-                }
+        requests.loginUser(login, email, object : RequestResult<LoginResponseModel> {
+            override fun onSuccess(response: Response<LoginResponseModel>) {
+                doOnLoginSuccess(response)
+            }
 
-                override fun onResponse(
-                    call: Call<LoginResponseModel>,
-                    response: Response<LoginResponseModel>
-                ) {
-                    when (HttpURLConnection.HTTP_OK) {
-                        response.code() -> {
-                            val token = response.body()?.token.toString()
-                            Log.i("LoginSuccess", token)
+            override fun onError(t: Throwable) {
+                doOnLoginFailure(t)
+            }
 
-                            prefs.saveToPref(this@LoginActivity, "token", token)
-                            progressBar.hide(login_progress_bar)
-                            MainActivity.gotoMainPage(this@LoginActivity)
-                        }
-                        else -> {
-                            Log.e("LoginError", getString(R.string.wrong_pass_or_email))
-                            progressBar.hide(login_progress_bar)
-                            error_message.visibility = View.VISIBLE
-                        }
-                    }
-                }
+        })
+    }
 
-            })
+    private fun doOnLoginSuccess(response: Response<LoginResponseModel>) {
+        when (HttpURLConnection.HTTP_OK) {
+            response.code() -> {
+                val token = response.body()?.token.toString()
+                Log.i("LoginSuccess", token)
 
+                prefs.saveToPref(this@LoginActivity, "token", token)
+                progressBar.hide(login_progress_bar)
+                MainActivity.gotoMainPage(this@LoginActivity)
+            }
+            else -> {
+                Log.e("LoginError", getString(R.string.wrong_pass_or_email))
+                progressBar.hide(login_progress_bar)
+                error_message.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun doOnLoginFailure(t: Throwable) {
+        Log.e("LoginError", t.message.toString())
     }
 
     private fun checkToken() {

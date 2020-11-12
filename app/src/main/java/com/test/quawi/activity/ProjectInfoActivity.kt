@@ -80,27 +80,34 @@ class ProjectInfoActivity : AppCompatActivity() {
             token,
             object : RequestResult<ProjectNameModel> {
                 override fun onSuccess(response: Response<ProjectNameModel>) {
-                    if (response.code() == HttpURLConnection.HTTP_OK) {
-
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            progressBar.hide(project_info_progress_bar)
-                            project_name.text = name
-                        }, 1500)
-                    } else {
-                        progressBar.hide(project_info_progress_bar)
-                    }
+                    doOnProjectLoadedSuccess(response, name)
                 }
 
                 override fun onError(t: Throwable) {
-                    progressBar.hide(project_info_progress_bar)
-                    Toast.makeText(
-                        this@ProjectInfoActivity,
-                        getString(R.string.smth_went_wrong),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    doOnProjectLoadedFailure(t)
                 }
 
             })
+    }
+
+    private fun doOnProjectLoadedSuccess(response: Response<ProjectNameModel>, name: String) {
+        if (response.code() == HttpURLConnection.HTTP_OK) {
+            Handler(Looper.getMainLooper()).postDelayed({
+                progressBar.hide(project_info_progress_bar)
+                project_name.text = name
+            }, 1500)
+        } else {
+            progressBar.hide(project_info_progress_bar)
+        }
+    }
+
+    private fun doOnProjectLoadedFailure(t: Throwable) {
+        progressBar.hide(project_info_progress_bar)
+        Toast.makeText(
+            this@ProjectInfoActivity,
+            getString(R.string.smth_went_wrong),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun initRecyclerView() {

@@ -24,4 +24,6 @@
     <string name="username">Username</string>
     <string name="all_time">All time</string>
     <string name="smth_went_wrong">Something went wrong...Try again later.</string>
+    <string name="green_color">#32CD32</string>
+    <string name="red_color">#ff504d</string>
 </resources>

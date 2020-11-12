@@ -14,7 +14,6 @@ import com.test.quawi.models.ProjectModel
 import com.test.quawi.models.ProjectsModel
 import com.test.quawi.retrofit.RequestResult
 import com.test.quawi.retrofit.Requests
-import com.test.quawi.utils.NetworkUtils
 import com.test.quawi.utils.ProgressBar
 import com.test.quawi.utils.SharedPref
 import kotlinx.android.synthetic.main.activity_main.*
@@ -70,27 +69,34 @@ class MainActivity : AppCompatActivity() {
         projects.clear()
         requests.getProjects(token, object : RequestResult<ProjectsModel> {
             override fun onSuccess(response: Response<ProjectsModel>) {
-
-                if (response.code() == HttpURLConnection.HTTP_OK) {
-                    response.body()?.projects?.forEach {
-                        projects.add(it)
-                    }
-
-                    progressBar.hide(project_progress_bar)
-
-                    initRecycleCategoryGallery(projects)
-                } else {
-                    progressBar.hide(project_progress_bar)
-                }
+                doOnChangeProjectSuccess(response)
             }
 
             override fun onError(t: Throwable) {
-                progressBar.hide(project_progress_bar)
-                missing_projects.visibility = View.VISIBLE
-                missing_projects_view.text = getString(R.string.missing_internet_connection)
+                doOnChangeProjectFailure(t)
             }
 
         })
+    }
+
+    private fun doOnChangeProjectSuccess(response: Response<ProjectsModel>) {
+        if (response.code() == HttpURLConnection.HTTP_OK) {
+            response.body()?.projects?.forEach {
+                projects.add(it)
+            }
+
+            progressBar.hide(project_progress_bar)
+
+            initRecycleCategoryGallery(projects)
+        } else {
+            progressBar.hide(project_progress_bar)
+        }
+    }
+
+    private fun doOnChangeProjectFailure(t: Throwable) {
+        progressBar.hide(project_progress_bar)
+        missing_projects.visibility = View.VISIBLE
+        missing_projects_view.text = getString(R.string.missing_internet_connection)
     }
 
     private val projectsOnItemClickListener = object : ProjectsAdapter.OnItemClickListener {

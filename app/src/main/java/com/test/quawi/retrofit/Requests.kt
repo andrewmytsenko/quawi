@@ -1,5 +1,7 @@
 package com.test.quawi.retrofit
 
+import com.test.quawi.models.LoginModel
+import com.test.quawi.models.LoginResponseModel
 import com.test.quawi.models.ProjectNameModel
 import com.test.quawi.models.ProjectsModel
 import com.test.quawi.utils.API_URL
@@ -25,7 +27,6 @@ class Requests {
         token: String,
         result: RequestResult<ProjectNameModel>
     ) {
-
         apiService.changeProjectName("Bearer $token", projectId, name)
             .enqueue(object : retrofit2.Callback<ProjectNameModel> {
                 override fun onFailure(call: Call<ProjectNameModel>, t: Throwable) {
@@ -38,7 +39,6 @@ class Requests {
                 ) {
                     result.onSuccess(response)
                 }
-
             })
     }
 
@@ -54,7 +54,24 @@ class Requests {
             ) {
                 result.onSuccess(response)
             }
-
         })
     }
+
+    fun loginUser(login: String, email: String, result: RequestResult<LoginResponseModel>) {
+        apiService.login(LoginModel(login, email))
+            .enqueue(object : retrofit2.Callback<LoginResponseModel> {
+                override fun onFailure(call: Call<LoginResponseModel>, t: Throwable) {
+                    result.onError(t)
+                }
+
+                override fun onResponse(
+                    call: Call<LoginResponseModel>,
+                    response: Response<LoginResponseModel>
+                ) {
+                    result.onSuccess(response)
+                }
+
+            })
+    }
+
 }

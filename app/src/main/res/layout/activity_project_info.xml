@@ -21,7 +21,7 @@
             style="@style/text_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="50dp"
+            android:layout_marginEnd="@dimen/gap_50dp"
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
@@ -38,10 +38,10 @@
         app:layout_constraintTop_toBottomOf="@id/project_info_toolbar">
 
         <ProgressBar
-            android:visibility="gone"
             android:id="@+id/project_info_progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -53,7 +53,7 @@
             style="@style/text_usual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/gap_16dp"
             android:text="@string/active"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -62,7 +62,7 @@
             android:id="@+id/active_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
+            android:layout_margin="@dimen/gap_12dp"
             app:layout_constraintStart_toEndOf="@id/guideline"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
@@ -72,7 +72,7 @@
             style="@style/text_usual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/gap_16dp"
             android:text="@string/tickets_visibility"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/active_text" />
@@ -82,7 +82,7 @@
             style="@style/text_usual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/gap_16dp"
             android:text="@string/tickets_visibility"
             android:textColor="#38dfff"
             app:layout_constraintStart_toEndOf="@id/guideline"
@@ -93,7 +93,7 @@
             style="@style/text_usual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/gap_16dp"
             android:text="@string/workers_text"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tickets_visibility_text" />
@@ -102,15 +102,15 @@
             android:id="@+id/project_info_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/gap_16dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/workers_text" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/project_info_avatar"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="16dp"
+            android:layout_width="@dimen/w_100dp"
+            android:layout_height="@dimen/w_100dp"
+            android:layout_margin="@dimen/gap_16dp"
             android:src="@mipmap/ic_launcher_round"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -126,7 +126,7 @@
             android:id="@+id/watcher_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/gap_16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/project_info_recycler"
@@ -137,9 +137,9 @@
             style="@style/text_usual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="@dimen/gap_10dp"
             android:text="@string/add_me_as_watcher_to_tickets_created_by_others"
-            android:textSize="14sp"
+            android:textSize="@dimen/ts_14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/watcher_switch"
             app:layout_constraintTop_toBottomOf="@id/project_info_recycler" />

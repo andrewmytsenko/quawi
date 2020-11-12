@@ -40,12 +40,12 @@ class ProjectsViewHolder(
         when (item.is_active) {
             ProjectStatus.ACTIVE -> {
                 itemView.project_status.text = itemView.context.getString(R.string.active)
-                itemView.project_status.setTextColor(Color.parseColor("#32CD32"))
+                itemView.project_status.setTextColor(Color.parseColor(itemView.context.getString(R.string.green_color)))
             }
 
             ProjectStatus.INACTIVE -> {
                 itemView.project_status.text = itemView.context.getString(R.string.inactive)
-                itemView.project_status.setTextColor(Color.parseColor("#ff504d"))
+                itemView.project_status.setTextColor(Color.parseColor(itemView.context.getString(R.string.red_color)))
             }
         }
 
